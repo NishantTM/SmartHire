@@ -13,7 +13,6 @@ class User(AbstractUser):
         
         role = models.CharField(max_length=20, choices=Role.choices,default=Role.JOB_SEEKER)
 
-        
         email = models.EmailField(unique=True)
         
         phone = models.CharField(max_length=15)
@@ -23,7 +22,6 @@ class User(AbstractUser):
         created_at = models.DateField(auto_now_add=True)
         
         updated_at = models.DateField(auto_now=True)
-        
         
         def __str__(self):
             return f"{self.username} - {self.get_role_display()}"

@@ -1,0 +1,66 @@
+{% extends 'base.html' %} {% block title %}Post a New Job - SmartHire{% endblock %} {% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h2 class="mb-4">Post a New Job</h2>
+
+        <form method="POST" action="{% url 'create_job' %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="title" class="form-label">Job Title *</label>
+                <input type="text" name="title" id="title" class="form-control" required placeholder="e.g. Full Stack Developer">
+            </div>
+
+            <div class="mb-3">
+                <label for="company_name" class="form-label">Company Name *</label>
+                <input type="text" name="company_name" id="company_name" class="form-control" required>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" name="location" id="location" class="form-control" placeholder="e.g. Remote / Kathmandu">
+                </div>
+                <div class="col-md-6">
+                    <label for="salary_range" class="form-label">Salary Range</label>
+                    <input type="text" name="salary_range" id="salary_range" class="form-control" placeholder="e.g. $50,000 - $70,000">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="category" class="form-label">Category *</label>
+                    <select name="category" id="category" class="form-select" required>
+                        <option value="">-- Select Category --</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.pk }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="job_type" class="form-label">Job Type</label>
+                    <select name="job_type" id="job_type" class="form-select">
+                        <option value="FT">Full-time</option>
+                        <option value="PT">Part-time</option>
+                        <option value="CT">Contract</option>
+                        <option value="IN">Internship</option>
+                        <option value="RM">Remote</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Job Description</label>
+                <textarea name="description" id="description" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="requirements" class="form-label">Requirements</label>
+                <textarea name="requirements" id="requirements" class="form-control" rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Publish Job Posting</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

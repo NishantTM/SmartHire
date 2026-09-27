@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow-sm border-0 p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="fw-bold mb-0">{{ job.title }}</h2>
+                <span class="badge bg-primary fs-6">{{ job.get_job_type_display }}</span>
+            </div>
+            <h5 class="text-muted mb-3"><i class="fa-regular fa-building me-1"></i> {{ job.company_name }} — {{ job.location }}</h5>
+
+            <hr>
+
+            <h5 class="fw-bold">Job Description</h5>
+            <p style="white-space: pre-line;">{{ job.description }}</p>
+
+            <div class="mt-4 p-4 bg-light rounded">
+                {% if user.is_authenticated %} {% if has_applied %}
+                <div class="alert alert-info mb-0">
+                    <i class="fa-solid fa-circle-check me-2"></i>You have already applied for this job.
+                </div>
+                {% else %}
+                <h5 class="fw-bold mb-3">Apply for this Position</h5>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Upload Resume (PDF/Doc)</label>
+                        <input type="file" name="resume" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cover Letter (Optional)</label>
+                        <textarea name="cover_letter" class="form-control" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4">Submit Application</button>
+                </form>
+                {% endif %} {% else %}
+                <p class="mb-0">Please <a href="/admin/login/?next={{ request.path }}">log in</a> to apply for this job.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
