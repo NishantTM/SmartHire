@@ -1,0 +1,612 @@
+{% extends "base.html" %} {% block title %}Job Seeker Dashboard | SmartHire{% endblock %} {% block content %}
+
+<div class="container-fluid py-4">
+
+    ```
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="p-4 bg-primary text-white rounded-4 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <h2 class="fw-bold mb-2">
+                            Welcome, {{ user.first_name|default:user.username }}! 👋
+                        </h2>
+
+                        <p class="mb-0">
+                            Find your next opportunity with SmartHire.
+                        </p>
+                    </div>
+
+                    <div class="d-none d-md-block">
+                        <span class="badge bg-light text-primary px-3 py-2">
+                        Job Seeker
+                    </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Dashboard Statistics -->
+    <div class="row g-4 mb-4">
+
+        <!-- Applications -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <small class="text-muted">
+                            Applications
+                        </small>
+
+                            <h3 class="fw-bold mb-0">
+                                {{ application_count|default:"0" }}
+                            </h3>
+                        </div>
+
+                        <div class="fs-2">
+                            📄
+                        </div>
+                    </div>
+
+                    <a href="#" class="text-decoration-none">
+                    View Applications →
+                </a>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Saved Jobs -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <small class="text-muted">
+                            Saved Jobs
+                        </small>
+
+                            <h3 class="fw-bold mb-0">
+                                {{ saved_jobs_count|default:"0" }}
+                            </h3>
+                        </div>
+
+                        <div class="fs-2">
+                            🔖
+                        </div>
+                    </div>
+
+                    <a href="#" class="text-decoration-none">
+                    View Saved Jobs →
+                </a>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Recommended Jobs -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <small class="text-muted">
+                            Recommended Jobs
+                        </small>
+
+                            <h3 class="fw-bold mb-0">
+                                {{ recommended_jobs_count|default:"0" }}
+                            </h3>
+                        </div>
+
+                        <div class="fs-2">
+                            ⭐
+                        </div>
+                    </div>
+
+                    <a href="#" class="text-decoration-none">
+                    Explore Jobs →
+                </a>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Profile -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <small class="text-muted">
+                            Profile
+                        </small>
+
+                            <h3 class="fw-bold mb-0">
+                                {{ profile_completion|default:"0" }}%
+                            </h3>
+                        </div>
+
+                        <div class="fs-2">
+                            👤
+                        </div>
+                    </div>
+
+                    <a href="#" class="text-decoration-none">
+                    Complete Profile →
+                </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Main Dashboard Content -->
+    <div class="row g-4">
+
+        <!-- Recommended Jobs -->
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0 p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h4 class="fw-bold mb-1">
+                                Recommended Jobs
+                            </h4>
+
+                            <p class="text-muted mb-0">
+                                Jobs that may match your profile
+                            </p>
+                        </div>
+
+                        <a href="#" class="btn btn-outline-primary">
+                        View All
+                    </a>
+
+                    </div>
+                </div>
+
+
+                <div class="card-body p-4">
+
+                    {% if recommended_jobs %} {% for job in recommended_jobs %}
+
+                    <div class="border rounded-4 p-3 mb-3">
+
+                        <div class="d-flex justify-content-between">
+
+                            <div>
+
+                                <h5 class="fw-bold mb-1">
+                                    {{ job.title }}
+                                </h5>
+
+                                <p class="text-muted mb-2">
+                                    {{ job.company.name }}
+                                </p>
+
+                                <div class="small text-muted">
+
+                                    {% if job.location %} 📍 {{ job.location }} {% endif %} {% if job.job_type %} &nbsp; • &nbsp; 💼 {{ job.job_type }} {% endif %}
+
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <a href="#" class="btn btn-primary">
+                                    View
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %} {% else %}
+
+                    <div class="text-center py-5">
+
+                        <div class="display-4 mb-3">
+                            🔍
+                        </div>
+
+                        <h5 class="fw-bold">
+                            No recommended jobs yet
+                        </h5>
+
+                        <p class="text-muted">
+                            Complete your profile to receive better job recommendations.
+                        </p>
+
+                        <a href="#" class="btn btn-primary">
+                            Complete Profile
+                        </a>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Profile Summary -->
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0 p-4">
+                    <h4 class="fw-bold mb-0">
+                        My Profile
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="text-center mb-4">
+
+                        {% if user.profile_image %}
+
+                        <img src="{{ user.profile_image.url }}" alt="Profile" class="rounded-circle" width="100" height="100" style="object-fit: cover;"> {% else %}
+
+                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 40px;">
+                            👤
+                        </div>
+
+                        {% endif %}
+
+                        <h5 class="fw-bold mt-3 mb-1">
+                            {{ user.get_full_name|default:user.username }}
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            {{ user.email }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- Profile Completion -->
+
+                    <div class="mb-3">
+
+                        <div class="d-flex justify-content-between mb-2">
+
+                            <span class="fw-semibold">
+                            Profile Completion
+                        </span>
+
+                            <span class="fw-bold">
+                            {{ profile_completion|default:"0" }}%
+                        </span>
+
+                        </div>
+
+                        <div class="progress" style="height: 8px;">
+
+                            <div class="progress-bar" role="progressbar" style="width: {{ profile_completion|default:0 }}%;">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                        Username
+                    </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ user.username }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                        Email
+                    </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ user.email }}
+                        </p>
+
+                    </div>
+
+
+                    {% if user.phone %}
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                        Phone
+                    </small>
+
+                        <p class="fw-semibold mb-0">
+                            {{ user.phone }}
+                        </p>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <div class="d-grid">
+
+                        <a href="#" class="btn btn-primary">
+                        Edit Profile
+                    </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Recent Applications -->
+    <div class="row mt-4">
+
+        <div class="col-12">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0 p-4">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h4 class="fw-bold mb-1">
+                                Recent Applications
+                            </h4>
+
+                            <p class="text-muted mb-0">
+                                Track the jobs you have applied for
+                            </p>
+                        </div>
+
+                        <a href="#" class="btn btn-outline-primary">
+                        View All
+                    </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body p-4">
+
+                    {% if recent_applications %}
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Job</th>
+                                    <th>Company</th>
+                                    <th>Date Applied</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for application in recent_applications %}
+
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            {{ application.job.title }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ application.job.company.name }}
+                                    </td>
+
+                                    <td>
+                                        {{ application.applied_at|date:"M d, Y" }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if application.status == "pending" %}
+
+                                        <span class="badge bg-warning text-dark">
+                                                Pending
+                                            </span> {% elif application.status == "shortlisted" %}
+
+                                        <span class="badge bg-info">
+                                                Shortlisted
+                                            </span> {% elif application.status == "accepted" %}
+
+                                        <span class="badge bg-success">
+                                                Accepted
+                                            </span> {% elif application.status == "rejected" %}
+
+                                        <span class="badge bg-danger">
+                                                Rejected
+                                            </span> {% else %}
+
+                                        <span class="badge bg-secondary">
+                                                {{ application.status|title }}
+                                            </span> {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="text-center py-5">
+
+                        <div class="display-4 mb-3">
+                            📄
+                        </div>
+
+                        <h5 class="fw-bold">
+                            No applications yet
+                        </h5>
+
+                        <p class="text-muted">
+                            Start applying for jobs to track your applications here.
+                        </p>
+
+                        <a href="#" class="btn btn-primary">
+                            Browse Jobs
+                        </a>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Quick Actions -->
+    <div class="row g-4 mt-2 mb-4">
+
+        <div class="col-md-4">
+
+            <a href="#" class="text-decoration-none">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body p-4 text-center">
+
+                        <div class="fs-1 mb-2">
+                            🔎
+                        </div>
+
+                        <h5 class="fw-bold">
+                            Search Jobs
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Find jobs based on your skills and preferences.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <a href="#" class="text-decoration-none">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body p-4 text-center">
+
+                        <div class="fs-1 mb-2">
+                            📄
+                        </div>
+
+                        <h5 class="fw-bold">
+                            Upload Resume
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Upload your latest resume to apply for jobs.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <a href="#" class="text-decoration-none">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body p-4 text-center">
+
+                        <div class="fs-1 mb-2">
+                            ⚙️
+                        </div>
+
+                        <h5 class="fw-bold">
+                            Account Settings
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Manage your account and preferences.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+    ```
+
+</div>
+
+{% endblock %}

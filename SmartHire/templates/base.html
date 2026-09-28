@@ -5,50 +5,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{% block title %}SmartHire - Job Portal{% endblock %}</title>
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
 
-    <!-- Modern Navigation Bar -->
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+
         <div class="container">
-            <a class="navbar-brand fw-bold" href="/"><i class="fa-solid fa-briefcase me-2"></i>SmartHire</a>
+
+            <!-- Brand -->
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fa-solid fa-briefcase me-2"></i> SmartHire
+            </a>
+
+            <!-- Mobile Menu Button -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
                 <span class="navbar-toggler-icon"></span>
+
             </button>
+
+            <!-- Navigation Links -->
             <div class="collapse navbar-collapse" id="navbarNav">
+
                 <ul class="navbar-nav ms-auto">
+
+                    <!-- Find Jobs -->
                     <li class="nav-item">
-                        <a class="nav-link active" href="/jobs/">Find Jobs</a>
+                        <a class="nav-link" href="{% url 'job_list' %}">
+                            <i class="fa-solid fa-magnifying-glass me-1"></i> Find Jobs
+                        </a>
                     </li>
+
+                    {% if user.is_authenticated %}
+
+                    <!-- Dashboard -->
                     <li class="nav-item">
-                        <a class="btn btn-outline-light ms-lg-2" href="/admin/">Post a Job</a>
+                        <a class="nav-link" href="{% url 'dashboard' %}">
+                            <i class="fa-solid fa-gauge me-1"></i> Dashboard
+                        </a>
                     </li>
+
+                    <!-- Logout -->
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light ms-lg-2" href="{% url 'logout' %}">
+                            <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                        </a>
+                    </li>
+
+                    {% else %}
+
+                    <!-- Login -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                                Login
+                            </a>
+                    </li>
+
+                    <!-- Register -->
+                    <li class="nav-item">
+                        <a class="btn btn-light ms-lg-2" href="{% url 'register' %}">
+                                Register
+                            </a>
+                    </li>
+
+                    {% endif %}
+
                 </ul>
+
             </div>
+
         </div>
+
     </nav>
 
-    <!-- Main Content Container -->
+    <!-- Main Content -->
     <main class="container my-5 flex-grow-1">
+
         {% block content %} {% endblock %}
+
     </main>
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3 mt-auto">
+
         <div class="container">
-            <p class="mb-0">&copy; 2026 SmartHire Portal. All rights reserved.</p>
+
+            <p class="mb-0">
+                &copy; 2026 SmartHire Portal. All rights reserved.
+            </p>
+
         </div>
+
     </footer>
 
     <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+
 </body>
 
 </html>
